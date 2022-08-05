@@ -1,0 +1,8 @@
+completer:
+
+  #当输入了/easyTalk后将提示补全以下内容
+  easyTalk:
+    - "help"
+    - "reloadPlugin"
+    - "correctYaml"
+    - "showItem"

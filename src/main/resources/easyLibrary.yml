@@ -1,0 +1,9 @@
+
+daoPackage: []
+listenerPackage:
+  - "pers/zhangyang/easytalk/listener"
+executorPackage:
+  - "pers/zhangyang/easytalk/executor"
+yamlPackage:
+  - "pers/zhangyang/easytalk/yaml"
+guiButtonHandlerPackage: []

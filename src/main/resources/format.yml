@@ -1,0 +1,15 @@
+format:
+  publicChat:
+  #这个必须是整数，数字大的组会覆盖数字小的组，每个组对应一个权限节点，例如1的对应的权限节点为EasyTalk.publicChatFormat.1
+  #如果玩家没有任何权限，则玩家消息不会被显示
+  #组成格式为多个textComponent的名字用英文逗号隔开，其中message代表玩家发送的消息
+    1: "公共聊天前缀1,message"
+    2: "公共聊天前缀2,message"
+
+  #这个必须是整数，数字大的组会覆盖数字小的组，每个组对应一个权限节点，例如1的对应的权限节点为EasyTalk.privateChatFormat.1
+  #如果玩家没有任何权限，则玩家消息不会被显示
+  #组成格式为多个textComponent的名字用英文逗号隔开，其中message代表玩家发送的消息
+  privateChat:
+    1: "私聊前缀1,message"
+    2: "私聊前缀2,message"
+
