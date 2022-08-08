@@ -6,4 +6,5 @@ executorPackage:
   - "pers/zhangyang/easytalk/executor"
 yamlPackage:
   - "pers/zhangyang/easytalk/yaml"
-guiButtonHandlerPackage: []
+guiButtonHandlerPackage:
+  - "pers/zhangyang/easytalk/listener"

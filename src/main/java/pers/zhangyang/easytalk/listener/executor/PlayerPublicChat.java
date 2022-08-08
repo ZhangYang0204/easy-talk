@@ -1,4 +1,4 @@
-package pers.zhangyang.easytalk.executor;
+package pers.zhangyang.easytalk.listener.executor;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -7,12 +7,13 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Item;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import pers.zhangyang.easylibrary.base.ExecutorBase;
-import pers.zhangyang.easylibrary.util.MessageUtil;
+import pers.zhangyang.easylibrary.annotation.EventListener;
 import pers.zhangyang.easylibrary.util.PermUtil;
 import pers.zhangyang.easylibrary.util.PlayerUtil;
 import pers.zhangyang.easytalk.yaml.FormatYaml;
@@ -24,66 +25,47 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PrivateChatExecutor extends ExecutorBase {
-    public PrivateChatExecutor(@NotNull CommandSender sender, String commandName, @NotNull String[] args) {
-        super(sender, commandName, args);
-    }
+@EventListener
+public class PlayerPublicChat implements Listener {
 
-    @Override
-    protected void run() {
-        if (args.length<2){
-            return;
-        }
-        if (!(sender instanceof Player)){
-            List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.notPlayer");
-            MessageUtil.sendMessageTo(this.sender, list);
-            return;
-        }
-        Player player= (Player) sender;
-        String message=args[1];
-        for (int i=2;i<args.length;i++){
-            message+=" "+args[i];
-        }
-
-        Player target= Bukkit.getPlayer(args[0]);
-        if (target==null){
-            List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.notOnline");
-            MessageUtil.sendMessageTo(player, list);
-            return;
-        }
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void on(AsyncPlayerChatEvent event) {
+        event.setCancelled(true);
+        Player player = event.getPlayer();
 
 
-
-        Integer perm=null;
-        if (player.isOp()){
-            List<Integer> integerList= FormatYaml.INSTANCE.getPublicChatFormatNameList();
-            if (integerList.size()!=0) {
+        //获得玩家的权限
+        Integer perm = null;
+        if (player.isOp()) {
+            List<Integer> integerList = FormatYaml.INSTANCE.getPublicChatFormatNameList();
+            if (integerList.size() != 0) {
                 integerList.sort((o1, o2) -> o2 - o1);
                 perm = integerList.get(0);
             }
-        }else {
-            perm= PermUtil.getNumberPerm("EasyTalk.privateChatFormat.",player);
+        } else {
+            perm = PermUtil.getNumberPerm("EasyTalk.publicChatFormat.", player);
         }
-
-        if (perm==null){
+        if (perm == null) {
             return;
         }
 
 
-        String format= FormatYaml.INSTANCE.getString("format.privateChat."+perm);
-        if (format==null){
+        //获得玩家的格式
+        String format = FormatYaml.INSTANCE.getString("format.publicChat." + perm);
+        if (format == null) {
             return;
         }
 
+        //分割格式
+        List<TextComponent> textComponentList = new ArrayList<>();
+        for (String v : format.split(",")) {
 
-
-        List<TextComponent> textComponentList=new ArrayList<>();
-        for (String v: format.split(",")){
             if (v.equalsIgnoreCase("message")) {
 
+                String msg= event.getMessage();
                 List<String> stringList = new ArrayList<>();
                 List<String> finalStringList = new ArrayList<>();
-                finalStringList.add(message);
+                finalStringList.add(msg);
                 List<String> showItemSymbol= SettingYaml.INSTANCE.getShowItemSymbol();
                 if (showItemSymbol!=null) {
                     for (String s :showItemSymbol){
@@ -104,7 +86,6 @@ public class PrivateChatExecutor extends ExecutorBase {
                     }else {
                         textComponentList.add(new TextComponent(s));
                     }
-
                     TextComponent messageComponent=new TextComponent(MessageYaml.INSTANCE.getShowItem());
                     ItemStack itemStack= PlayerUtil.getItemInMainHand(player);
                     ItemTag itemTag=ItemTag.ofNbt(itemStack.getItemMeta()==null?null:itemStack.getItemMeta().getAsString());
@@ -119,27 +100,25 @@ public class PrivateChatExecutor extends ExecutorBase {
                 continue;
             }
 
-            TextComponent t=TextComponentYaml.INSTANCE.getTextComponent("textComponent."+v);
-            if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-                t.setText(PlaceholderAPI.setPlaceholders(player,t.getText()));
+            TextComponent t = TextComponentYaml.INSTANCE.getTextComponent("textComponent." + v);
+            if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+                t.setText(PlaceholderAPI.setPlaceholders(player, t.getText()));
             }
-           t.setText(t.getText().replace("{self_name}",player.getName()).replace(
-                   "{target_name}",target.getName()
-           ));
-            t.setText(ChatColor.translateAlternateColorCodes('&',t.getText()));
+            t.setText(ChatColor.translateAlternateColorCodes('&', t.getText()));
             textComponentList.add(t);
-
         }
 
-        TextComponent textComponent=new TextComponent();
-        for (TextComponent t:textComponentList){
+
+        //格式拼接
+        TextComponent textComponent = new TextComponent();
+        for (TextComponent t : textComponentList) {
             textComponent.addExtra(t);
         }
 
-
-        target.spigot().sendMessage(textComponent);
-        player.spigot().sendMessage(textComponent);
-
+        //发送
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.spigot().sendMessage(textComponent);
+        }
 
     }
 }

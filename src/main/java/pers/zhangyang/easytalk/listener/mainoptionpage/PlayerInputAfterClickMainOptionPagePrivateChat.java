@@ -1,4 +1,4 @@
-package pers.zhangyang.easytalk.executor;
+package pers.zhangyang.easytalk.listener.mainoptionpage;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -7,11 +7,12 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Item;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import pers.zhangyang.easylibrary.base.ExecutorBase;
+import pers.zhangyang.easylibrary.base.FiniteInputListenerBase;
+import pers.zhangyang.easylibrary.base.GuiPage;
 import pers.zhangyang.easylibrary.util.MessageUtil;
 import pers.zhangyang.easylibrary.util.PermUtil;
 import pers.zhangyang.easylibrary.util.PlayerUtil;
@@ -24,28 +25,29 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PrivateChatExecutor extends ExecutorBase {
-    public PrivateChatExecutor(@NotNull CommandSender sender, String commandName, @NotNull String[] args) {
-        super(sender, commandName, args);
+public class PlayerInputAfterClickMainOptionPagePrivateChat extends FiniteInputListenerBase {
+    public PlayerInputAfterClickMainOptionPagePrivateChat(Player player, OfflinePlayer owner, GuiPage previousPage) {
+        super(player, owner, previousPage, 2);
+        MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.howToPrivateChat"));
     }
 
     @Override
-    protected void run() {
-        if (args.length<2){
+    public void run() {
+
+
+        if (!owner.isOnline()){
+            List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.notOnline");
+            MessageUtil.sendMessageTo(player, list);
             return;
-        }
-        if (!(sender instanceof Player)){
-            List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.notPlayer");
-            MessageUtil.sendMessageTo(this.sender, list);
-            return;
-        }
-        Player player= (Player) sender;
-        String message=args[1];
-        for (int i=2;i<args.length;i++){
-            message+=" "+args[i];
         }
 
-        Player target= Bukkit.getPlayer(args[0]);
+        Player onlineOwner=owner.getPlayer();
+
+        assert onlineOwner != null;
+
+        String message=messages[1];
+
+        Player target= Bukkit.getPlayer(messages[0]);
         if (target==null){
             List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.notOnline");
             MessageUtil.sendMessageTo(player, list);
@@ -119,13 +121,13 @@ public class PrivateChatExecutor extends ExecutorBase {
                 continue;
             }
 
-            TextComponent t=TextComponentYaml.INSTANCE.getTextComponent("textComponent."+v);
+            TextComponent t= TextComponentYaml.INSTANCE.getTextComponent("textComponent."+v);
             if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-                t.setText(PlaceholderAPI.setPlaceholders(player,t.getText()));
+                t.setText(PlaceholderAPI.setPlaceholders(onlineOwner,t.getText()));
             }
-           t.setText(t.getText().replace("{self_name}",player.getName()).replace(
-                   "{target_name}",target.getName()
-           ));
+            t.setText(t.getText().replace("{self_name}",onlineOwner.getName()).replace(
+                    "{target_name}",target.getName()
+            ));
             t.setText(ChatColor.translateAlternateColorCodes('&',t.getText()));
             textComponentList.add(t);
 
@@ -138,7 +140,7 @@ public class PrivateChatExecutor extends ExecutorBase {
 
 
         target.spigot().sendMessage(textComponent);
-        player.spigot().sendMessage(textComponent);
+        onlineOwner.spigot().sendMessage(textComponent);
 
 
     }

@@ -5,4 +5,6 @@ completer:
     - "help"
     - "reloadPlugin"
     - "correctYaml"
-    - "showItem"
+    - "openGui"
+    - "openMui"
+    - "privateChat"
