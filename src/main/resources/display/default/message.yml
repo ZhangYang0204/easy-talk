@@ -23,6 +23,8 @@ message:
       - "&b&l/EasyTalk reloadPlugin       重载插件"
       - "&b&l/EasyTalk correctYaml       修正Yaml文件"
       - "&b&l/EasyTalk privateChat <玩家名> <消息>      私聊"
+      - "&b&l/EasyTalk openMui <玩家名>        打开Mui，玩家需要在线"
+      - "&b&l/EasyTalk openGui        打开Gui"
     notifyVersion:
       - "&b&lEasyTalk的当前版本是 &f{current_version}，&b&l最新版本是 &f{latest_version}。"
     enablePlugin:

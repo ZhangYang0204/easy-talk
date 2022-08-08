@@ -1,6 +1,14 @@
 message:
+  input:
+    cancel: "取消"
+
+
+
   component:
     showItem: "&f[&b手中的物品&f]"
+
+
+
 
   chat:
     failureGetLatestVersion:
@@ -14,6 +22,9 @@ message:
       - "&b&l/EasyTalk help       查看帮助"
       - "&b&l/EasyTalk reloadPlugin       重载插件"
       - "&b&l/EasyTalk correctYaml       修正Yaml文件"
+      - "&b&l/EasyTalk privateChat <玩家名> <消息>      私聊"
+      - "&b&l/EasyTalk openMui <玩家名>        打开Mui，玩家需要在线"
+      - "&b&l/EasyTalk openGui        打开Gui"
     notifyVersion:
       - "&b&lEasyTalk的当前版本是 &f{current_version}，&b&l最新版本是 &f{latest_version}。"
     enablePlugin:
@@ -36,3 +47,7 @@ message:
       - "&c&l您重载了插件。"
     notPlayer:
       - "&c&l只有玩家才能这么做。"
+    notOnline:
+      - "&c&l玩家不在线。"
+    howToPrivateChat:
+      - "&b&l依次输入玩家的名字、私聊内容，每次输入完回车。"
