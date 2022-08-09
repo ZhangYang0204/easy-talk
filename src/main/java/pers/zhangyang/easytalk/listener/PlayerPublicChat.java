@@ -1,4 +1,4 @@
-package pers.zhangyang.easytalk.listener.executor;
+package pers.zhangyang.easytalk.listener;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.chat.HoverEvent;
