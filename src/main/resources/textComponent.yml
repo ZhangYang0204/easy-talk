@@ -3,23 +3,37 @@ textComponent:
     #显示的文本，可以使用Papi变量
     text: "&6[&f%player_name%&6] &7&l>>> "
 
-    #该文本的动作 有SHOW_TEXT RUN_COMMAND SUGGEST_COMMAND COPY_TO_CLIPBOARD
-    action: "SHOW_TEXT"
 
-    #动作对应的内容,如果是SHOW_TEXT，则对应数组，其他动作对应字符串
-    content:
-    - "这是公共聊天，全部人都能看到"
+
+    #该文本的悬浮事件 有SHOW_TEXT
+    hoverEvent: "SHOW_TEXT"
+
+    #这里必须是数组，支持Papi变量，虽然是数组，但是不会自动换行，请用换行符\n换行
+    hoverEventContent:
+      - "这是公共聊天，全部人都能看到\n"
+      - "他的名字是：%player_name%"
+
+
+    #该文本的悬浮事件 有RUN_COMMAND SUGGEST_COMMAND COPY_TO_CLIPBOARD
+    clickEvent: "SUGGEST_COMMAND"
+
+    #这里必须不是数组，支持Papi变量
+    clickEventContent: "/tpa <玩家名>"
+
   公共聊天前缀2:
     text: "&6[&f%player_name%&6] &7&l>>> "
-    action: "SHOW_TEXT"
-    content:
-      - "这是公共聊天，全部人都能看到"
+    hoverEvent: "SHOW_TEXT"
+    hoverEventContent:
+      - "这是公共聊天，全部人都能看到\n"
+      - "他的名字是：%player_name%"
+    clickEvent: "SUGGEST_COMMAND"
+    clickEventContent: "/tpa <玩家名>"
 
   私聊前缀1:
     text: "&6[&f{self_name}&6]&b&l➡&6[&f{target_name}&6] &7&l>>>"
-    action: "SUGGEST_COMMAND"
-    content: "/et privateChat <玩家名> <消息>"
+    clickEvent: "SUGGEST_COMMAND"
+    clickEventContent: "/et privateChat <玩家名> <消息>"
   私聊前缀2:
     text: "&6[&f{self_name}&6]&b&l➡&6[&f{target_name}&6] &7&l>>>"
-    action: "SUGGEST_COMMAND"
-    content: "/et privateChat <玩家名> <消息>"
+    clickEvent: "SUGGEST_COMMAND"
+    clickEventContent: "/et privateChat <玩家名> <消息>"

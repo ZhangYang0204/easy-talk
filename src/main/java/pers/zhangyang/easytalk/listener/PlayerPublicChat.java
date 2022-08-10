@@ -100,7 +100,7 @@ public class PlayerPublicChat implements Listener {
                 continue;
             }
 
-            TextComponent t = TextComponentYaml.INSTANCE.getTextComponent("textComponent." + v);
+            TextComponent t = TextComponentYaml.INSTANCE.getTextComponent("textComponent." + v,player);
             if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                 t.setText(PlaceholderAPI.setPlaceholders(player, t.getText()));
             }

@@ -1,9 +1,11 @@
 package pers.zhangyang.easytalk.executor;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.ItemTag;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Content;
 import net.md_5.bungee.api.chat.hover.content.Item;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -56,7 +58,7 @@ public class PrivateChatExecutor extends ExecutorBase {
 
         Integer perm=null;
         if (player.isOp()){
-            List<Integer> integerList= FormatYaml.INSTANCE.getPublicChatFormatNameList();
+            List<Integer> integerList= FormatYaml.INSTANCE.getPrivateChatFormatNameList();
             if (integerList.size()!=0) {
                 integerList.sort((o1, o2) -> o2 - o1);
                 perm = integerList.get(0);
@@ -119,7 +121,9 @@ public class PrivateChatExecutor extends ExecutorBase {
                 continue;
             }
 
-            TextComponent t=TextComponentYaml.INSTANCE.getTextComponent("textComponent."+v);
+            TextComponent t=TextComponentYaml.INSTANCE.getTextComponent("textComponent."+v,player);
+
+
             if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                 t.setText(PlaceholderAPI.setPlaceholders(player,t.getText()));
             }
