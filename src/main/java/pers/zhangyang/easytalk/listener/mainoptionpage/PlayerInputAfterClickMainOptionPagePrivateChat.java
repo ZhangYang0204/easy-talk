@@ -57,14 +57,14 @@ public class PlayerInputAfterClickMainOptionPagePrivateChat extends FiniteInputL
 
 
         Integer perm=null;
-        if (player.isOp()){
+        if (onlineOwner.isOp()){
             List<Integer> integerList= FormatYaml.INSTANCE.getPublicChatFormatNameList();
             if (integerList.size()!=0) {
                 integerList.sort((o1, o2) -> o2 - o1);
                 perm = integerList.get(0);
             }
         }else {
-            perm= PermUtil.getNumberPerm("EasyTalk.privateChatFormat.",player);
+            perm= PermUtil.getNumberPerm("EasyTalk.privateChatFormat.",onlineOwner);
         }
 
         if (perm==null){
@@ -82,6 +82,7 @@ public class PlayerInputAfterClickMainOptionPagePrivateChat extends FiniteInputL
         List<TextComponent> textComponentList=new ArrayList<>();
         for (String v: format.split(",")){
             if (v.equalsIgnoreCase("message")) {
+                if (onlineOwner.hasPermission("EasyTalk.showItem")){
 
                 List<String> stringList = new ArrayList<>();
                 List<String> finalStringList = new ArrayList<>();
@@ -100,28 +101,33 @@ public class PlayerInputAfterClickMainOptionPagePrivateChat extends FiniteInputL
                     }
                 }
 
-                for (String s:finalStringList){
-                    if (player.hasPermission("EasyTalk.chatColor")) {
-                        textComponentList.add(new TextComponent(ChatColor.translateAlternateColorCodes('&', s)));
-                    }else {
-                        textComponentList.add(new TextComponent(s));
-                    }
+                    for (String s : finalStringList) {
+                        if (onlineOwner.hasPermission("EasyTalk.chatColor")) {
+                            textComponentList.add(new TextComponent(ChatColor.translateAlternateColorCodes('&', s)));
+                        } else {
+                            textComponentList.add(new TextComponent(s));
+                        }
 
-                    TextComponent messageComponent=new TextComponent(MessageYaml.INSTANCE.getShowItem());
-                    ItemStack itemStack= PlayerUtil.getItemInMainHand(player);
-                    ItemTag itemTag=ItemTag.ofNbt(itemStack.getItemMeta()==null?null:itemStack.getItemMeta().getAsString());
-                    messageComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM,
-                            new Item(itemStack.getType().getKey().toString(), itemStack.getAmount(),
-                                    itemTag)));
+                        TextComponent messageComponent = new TextComponent(MessageYaml.INSTANCE.getShowItem());
+                        ItemStack itemStack = PlayerUtil.getItemInMainHand(player);
+                        ItemTag itemTag = ItemTag.ofNbt(itemStack.getItemMeta() == null ? null : itemStack.getItemMeta().getAsString());
+                        messageComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM,
+                                new Item(itemStack.getType().getKey().toString(), itemStack.getAmount(),
+                                        itemTag)));
 
-                    messageComponent.setText(ChatColor.translateAlternateColorCodes('&', messageComponent.getText()));
-                    textComponentList.add(messageComponent);
+                        messageComponent.setText(ChatColor.translateAlternateColorCodes('&', messageComponent.getText()));
+                        textComponentList.add(messageComponent);
+
                 }
-                textComponentList.remove(textComponentList.size()-1);
-                continue;
+                    textComponentList.remove(textComponentList.size() - 1);
+                continue; }else {
+                TextComponent textComponent=new TextComponent(messages[1]);
+                textComponent.setText(ChatColor.translateAlternateColorCodes('&', textComponent.getText()));
+                textComponentList.add(textComponent);
+            }
             }
 
-            TextComponent t= TextComponentYaml.INSTANCE.getTextComponent("textComponent."+v,player);
+            TextComponent t= TextComponentYaml.INSTANCE.getTextComponent("textComponent."+v,onlineOwner);
             if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                 t.setText(PlaceholderAPI.setPlaceholders(onlineOwner,t.getText()));
             }

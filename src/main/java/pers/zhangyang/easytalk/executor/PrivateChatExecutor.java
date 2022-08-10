@@ -82,7 +82,7 @@ public class PrivateChatExecutor extends ExecutorBase {
         List<TextComponent> textComponentList=new ArrayList<>();
         for (String v: format.split(",")){
             if (v.equalsIgnoreCase("message")) {
-
+                if (player.hasPermission("EasyTalk.showItem")){
                 List<String> stringList = new ArrayList<>();
                 List<String> finalStringList = new ArrayList<>();
                 finalStringList.add(message);
@@ -100,25 +100,30 @@ public class PrivateChatExecutor extends ExecutorBase {
                     }
                 }
 
-                for (String s:finalStringList){
-                    if (player.hasPermission("EasyTalk.chatColor")) {
-                        textComponentList.add(new TextComponent(ChatColor.translateAlternateColorCodes('&', s)));
-                    }else {
-                        textComponentList.add(new TextComponent(s));
+                    for (String s : finalStringList) {
+                        if (player.hasPermission("EasyTalk.chatColor")) {
+                            textComponentList.add(new TextComponent(ChatColor.translateAlternateColorCodes('&', s)));
+                        } else {
+                            textComponentList.add(new TextComponent(s));
+                        }
+
+                        TextComponent messageComponent = new TextComponent(MessageYaml.INSTANCE.getShowItem());
+                        ItemStack itemStack = PlayerUtil.getItemInMainHand(player);
+                        ItemTag itemTag = ItemTag.ofNbt(itemStack.getItemMeta() == null ? null : itemStack.getItemMeta().getAsString());
+                        messageComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM,
+                                new Item(itemStack.getType().getKey().toString(), itemStack.getAmount(),
+                                        itemTag)));
+
+                        messageComponent.setText(ChatColor.translateAlternateColorCodes('&', messageComponent.getText()));
+                        textComponentList.add(messageComponent);
+
                     }
-
-                    TextComponent messageComponent=new TextComponent(MessageYaml.INSTANCE.getShowItem());
-                    ItemStack itemStack= PlayerUtil.getItemInMainHand(player);
-                    ItemTag itemTag=ItemTag.ofNbt(itemStack.getItemMeta()==null?null:itemStack.getItemMeta().getAsString());
-                    messageComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM,
-                            new Item(itemStack.getType().getKey().toString(), itemStack.getAmount(),
-                                    itemTag)));
-
-                    messageComponent.setText(ChatColor.translateAlternateColorCodes('&', messageComponent.getText()));
-                    textComponentList.add(messageComponent);
-                }
-                textComponentList.remove(textComponentList.size()-1);
-                continue;
+                    textComponentList.remove(textComponentList.size() - 1);
+                continue; }else {
+                TextComponent textComponent=new TextComponent(message);
+                textComponent.setText(ChatColor.translateAlternateColorCodes('&', textComponent.getText()));
+                textComponentList.add(textComponent);
+            }
             }
 
             TextComponent t=TextComponentYaml.INSTANCE.getTextComponent("textComponent."+v,player);

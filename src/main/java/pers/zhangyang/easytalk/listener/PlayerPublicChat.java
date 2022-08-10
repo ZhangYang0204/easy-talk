@@ -57,55 +57,68 @@ public class PlayerPublicChat implements Listener {
         if (format == null) {
             return;
         }
-        if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")&&event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())){
+        if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")&&event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())
+        &&player.hasPermission("EasyTalk.shout")){
             format=SettingYaml.INSTANCE.getStringDefault("setting.shout.prefix")+","+format;
         }
         //分割格式
         List<TextComponent> textComponentList = new ArrayList<>();
         for (String v : format.split(",")) {
 
+
+
             if (v.equalsIgnoreCase("message")) {
 
-                String msg= event.getMessage();
-                if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")&&event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())){
-                    msg=msg.replaceFirst(SettingYaml.INSTANCE.getShoutSymbol(), "");
-                }
+                if (player.hasPermission("EasyTalk.showItem")) {
+                    String msg = event.getMessage();
+                    if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")
+                            && event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())
+                            && player.hasPermission("EasyTalk.shout")) {
+                        msg = msg.replaceFirst(SettingYaml.INSTANCE.getShoutSymbol(), "");
+                    }
 
-                List<String> stringList = new ArrayList<>();
-                List<String> finalStringList = new ArrayList<>();
-                finalStringList.add(msg);
-                List<String> showItemSymbol= SettingYaml.INSTANCE.getShowItemSymbol();
-                if (showItemSymbol!=null) {
-                    for (String s :showItemSymbol){
+                    List<String> stringList = new ArrayList<>();
+                    List<String> finalStringList = new ArrayList<>();
+                    finalStringList.add(msg);
+                    List<String> showItemSymbol = SettingYaml.INSTANCE.getShowItemSymbol();
+                    if (showItemSymbol != null) {
+                        for (String s : showItemSymbol) {
 
-                        stringList.clear();
-                        stringList.addAll(finalStringList);
-                        finalStringList.clear();
-                        for (String ss:stringList){
-                            Collections.addAll(finalStringList,ss.split(s,-1));
+                            stringList.clear();
+                            stringList.addAll(finalStringList);
+                            finalStringList.clear();
+                            for (String ss : stringList) {
+                                Collections.addAll(finalStringList, ss.split(s, -1));
+                            }
+
                         }
+                    }
+
+                    for (String s : finalStringList) {
+                        if (player.hasPermission("EasyTalk.chatColor")) {
+                            textComponentList.add(new TextComponent(ChatColor.translateAlternateColorCodes('&', s)));
+                        } else {
+                            textComponentList.add(new TextComponent(s));
+                        }
+                        TextComponent messageComponent = new TextComponent(MessageYaml.INSTANCE.getShowItem());
+
+                        ItemStack itemStack = PlayerUtil.getItemInMainHand(player);
+                        ItemTag itemTag = ItemTag.ofNbt(itemStack.getItemMeta() == null ? null : itemStack.getItemMeta().getAsString());
+                        messageComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM,
+                                new Item(itemStack.getType().getKey().toString(), itemStack.getAmount(),
+                                        itemTag)));
+
+                        messageComponent.setText(ChatColor.translateAlternateColorCodes('&', messageComponent.getText()));
+                        textComponentList.add(messageComponent);
 
                     }
+                    textComponentList.remove(textComponentList.size() - 1);
+                    continue;
+                }else {
+                    TextComponent textComponent=new TextComponent(event.getMessage());
+                    textComponent.setText(ChatColor.translateAlternateColorCodes('&', textComponent.getText()));
+                    textComponentList.add(textComponent);
                 }
-
-                for (String s:finalStringList){
-                    if (player.hasPermission("EasyTalk.chatColor")) {
-                        textComponentList.add(new TextComponent(ChatColor.translateAlternateColorCodes('&', s)));
-                    }else {
-                        textComponentList.add(new TextComponent(s));
-                    }
-                    TextComponent messageComponent=new TextComponent(MessageYaml.INSTANCE.getShowItem());
-                    ItemStack itemStack= PlayerUtil.getItemInMainHand(player);
-                    ItemTag itemTag=ItemTag.ofNbt(itemStack.getItemMeta()==null?null:itemStack.getItemMeta().getAsString());
-                    messageComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM,
-                            new Item(itemStack.getType().getKey().toString(), itemStack.getAmount(),
-                                    itemTag)));
-
-                    messageComponent.setText(ChatColor.translateAlternateColorCodes('&', messageComponent.getText()));
-                    textComponentList.add(messageComponent);
-                }
-                textComponentList.remove(textComponentList.size()-1);
-                continue;
             }
 
             TextComponent t = TextComponentYaml.INSTANCE.getTextComponent("textComponent." + v,player);
@@ -126,7 +139,8 @@ public class PlayerPublicChat implements Listener {
         //发送
 
             if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")
-                    &&event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())){
+                    &&event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())
+            &&player.hasPermission("EasyTalk.shout")){
 
                     if (Vault.hook()==null){
                         MessageUtil.sendMessageTo(player,MessageYaml.INSTANCE.getStringList("message.chat.notHookVault"));
