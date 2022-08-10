@@ -1,8 +1,5 @@
 package pers.zhangyang.easytalk.yaml;
 
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pers.zhangyang.easylibrary.base.YamlBase;
@@ -30,7 +27,30 @@ public class SettingYaml extends YamlBase {
         return display;
     }
 
+    @NotNull
+    public String getShoutSymbol() {
+        String display = getStringDefault("setting.shout.symbol");
+        if (display.isEmpty()){
+            display=yamlConfiguration.getString("setting.shout.symbol");
+        }
+        assert display != null;
+        return display;
+    }
+    public double getPublicChatVisibleRange() {
+        double display = getDoubleDefault("setting.shout.publicChatVisibleRange");
+        if (display<0){
+            display=yamlConfiguration.getDouble("setting.shout.publicChatVisibleRange");
+        }
+        return display;
+    }
 
+    public int getShoutCost() {
+        int display = getIntegerDefault("setting.shout.cost");
+        if (display<0){
+            display=yamlConfiguration.getInt("setting.shout.cost");
+        }
+        return display;
+    }
     @Nullable
     public List<String> getShowItemSymbol() {
         List<String> showItemSymbol=SettingYaml.INSTANCE.getStringList("setting.showItemSymbol");

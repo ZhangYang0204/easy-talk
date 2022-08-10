@@ -1,4 +1,4 @@
-package pers.zhangyang.easytalk.listener;
+package pers.zhangyang.easytalk.listener.mainoptionpage;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -7,13 +7,11 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Item;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
-import pers.zhangyang.easylibrary.annotation.EventListener;
+import pers.zhangyang.easylibrary.base.FiniteInputListenerBase;
+import pers.zhangyang.easylibrary.base.GuiPage;
 import pers.zhangyang.easylibrary.other.vault.Vault;
 import pers.zhangyang.easylibrary.util.MessageUtil;
 import pers.zhangyang.easylibrary.util.PermUtil;
@@ -27,13 +25,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@EventListener
-public class PlayerPublicChat implements Listener {
+public class PlayerInputAfterClickMainOptionPageShout extends FiniteInputListenerBase {
+    public PlayerInputAfterClickMainOptionPageShout(Player player, OfflinePlayer owner, GuiPage previousPage) {
+        super(player, owner, previousPage, 1);
+        MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.howToShout"));
+    }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void on(AsyncPlayerChatEvent event) {
-        event.setCancelled(true);
-        Player player = event.getPlayer();
+    @Override
+    public void run() {
+
+
 
 
         //获得玩家的权限
@@ -57,19 +58,14 @@ public class PlayerPublicChat implements Listener {
         if (format == null) {
             return;
         }
-        if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")&&event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())){
             format=SettingYaml.INSTANCE.getStringDefault("setting.shout.prefix")+","+format;
-        }
         //分割格式
         List<TextComponent> textComponentList = new ArrayList<>();
         for (String v : format.split(",")) {
 
             if (v.equalsIgnoreCase("message")) {
 
-                String msg= event.getMessage();
-                if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")&&event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())){
-                    msg=msg.replaceFirst(SettingYaml.INSTANCE.getShoutSymbol(), "");
-                }
+                String msg= messages[0];
 
                 List<String> stringList = new ArrayList<>();
                 List<String> finalStringList = new ArrayList<>();
@@ -125,33 +121,24 @@ public class PlayerPublicChat implements Listener {
 
         //发送
 
-            if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")
-                    &&event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())){
 
-                    if (Vault.hook()==null){
-                        MessageUtil.sendMessageTo(player,MessageYaml.INSTANCE.getStringList("message.chat.notHookVault"));
-                        return;
-                    }
-
-                    if (!Vault.hook().has(player,SettingYaml.INSTANCE.getShoutCost())){
-                        MessageUtil.sendMessageTo(player,MessageYaml.INSTANCE.getStringList("message.chat.notEnoughVaultWhenShout"));
-                        return;
-                    }
-
-                    Vault.hook().withdrawPlayer(player,SettingYaml.INSTANCE.getShoutCost());
-
-
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.spigot().sendMessage(textComponent);
-                }
-
-            }else {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    if (p.getLocation().distance(player.getLocation())<SettingYaml.INSTANCE.getPublicChatVisibleRange()){
-                        p.spigot().sendMessage(textComponent);
-                    }
-                }
+            if (Vault.hook()==null){
+                MessageUtil.sendMessageTo(player,MessageYaml.INSTANCE.getStringList("message.chat.notHookVault"));
+                return;
             }
+
+            if (!Vault.hook().has(player,SettingYaml.INSTANCE.getShoutCost())){
+                MessageUtil.sendMessageTo(player,MessageYaml.INSTANCE.getStringList("message.chat.notEnoughVaultWhenShout"));
+                return;
+            }
+
+            Vault.hook().withdrawPlayer(player,SettingYaml.INSTANCE.getShoutCost());
+
+
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                p.spigot().sendMessage(textComponent);
+            }
+
 
 
 

@@ -17,8 +17,15 @@ public class MainOptionPage extends SingleGuiPageBase {
     @Override
     public void refresh() {
         ItemStack privateMessage = GuiYaml.INSTANCE.getButton("gui.button.mainOptionPage.privateChat");
-        inventory.setItem(22, privateMessage);
+        inventory.setItem(23, privateMessage);
+
+        ItemStack shout = GuiYaml.INSTANCE.getButton("gui.button.mainOptionPage.shout");
+        inventory.setItem(21, shout);
+
+
         viewer.openInventory(this.inventory);
+
+
     }
 
 }

@@ -50,4 +50,13 @@ message:
     notOnline:
       - "&c&l玩家不在线。"
     howToPrivateChat:
-      - "&b&l依次输入玩家的名字、私聊内容，每次输入完回车。"
+      - "&b&l依次输入玩家的名字、私聊内容，每次输入完回车，输入 &f取消 &b&l取消。"
+    howToShout:
+      - "&b&l输入你要喊话的内容，输入 &f取消 &b&l取消。"
+
+    notEnoughVaultWhenShout:
+      - "&c&l你没有足够的金币来喊话"
+    notHookVault:
+      - "&c&l没有检测到Vault插件和基于Vault的经济插件。"
+    notEnableShout:
+      - "&c&l没有开启喊话功能。"

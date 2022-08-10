@@ -8,6 +8,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Content;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -43,6 +44,7 @@ public class TextComponentYaml extends YamlBase {
                     if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                         s=PlaceholderAPI.setPlaceholders(player,s);
                     }
+                    s= ChatColor.translateAlternateColorCodes('&',s);
                     textList.add(new Text(s));
                 }
                 textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,textList));

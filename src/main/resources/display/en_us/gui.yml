@@ -24,3 +24,13 @@ gui:
 
         #用哪个模型数据 1.12及以前的版本不支持这个
         customModelData: [ ]
+      shout:
+        materialName: "DIAMOND"
+        displayName: "&b&l&n喊话"
+        lore:
+          - "&b&l点击喊话，你也可以在聊天的开头输入!开始喊话"
+        amount: 1
+        itemFlag:
+          - "HIDE_DESTROYS"
+        customModelData: []
+

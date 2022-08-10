@@ -24,8 +24,8 @@ textComponent:
     text: "&6[&f%player_name%&6] &7&l>>> "
     hoverEvent: "SHOW_TEXT"
     hoverEventContent:
-      - "这是公共聊天，全部人都能看到\n"
-      - "他的名字是：%player_name%"
+      - "&c这是公共聊天，全部人都能看到\n"
+      - "&c他的名字是：%player_name%"
     clickEvent: "SUGGEST_COMMAND"
     clickEventContent: "/tpa <玩家名>"
 
@@ -37,3 +37,10 @@ textComponent:
     text: "&6[&f{self_name}&6]&b&l➡&6[&f{target_name}&6] &7&l>>>"
     clickEvent: "SUGGEST_COMMAND"
     clickEventContent: "/et privateChat <玩家名> <消息>"
+  喊话前缀:
+    text: "&6[&e喊话&6] &7&l>>>"
+    hoverEvent: "SHOW_TEXT"
+    hoverEventContent:
+      - "这是喊话聊天，全部人都能看到，不论距离"
+    clickEvent: "SUGGEST_COMMAND"
+    clickEventContent: "!"

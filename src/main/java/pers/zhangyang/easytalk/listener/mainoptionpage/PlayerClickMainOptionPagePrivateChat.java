@@ -8,10 +8,10 @@ import pers.zhangyang.easylibrary.annotation.GuiDiscreteButtonHandler;
 import pers.zhangyang.easytalk.domain.MainOptionPage;
 
 @EventListener
-public class PlayerClickMainOptionPagePrivateMessage implements Listener {
+public class PlayerClickMainOptionPagePrivateChat implements Listener {
 
 
-    @GuiDiscreteButtonHandler(guiPage = MainOptionPage.class,slot = {22})
+    @GuiDiscreteButtonHandler(guiPage = MainOptionPage.class,slot = {23})
     public void on(InventoryClickEvent event){
         MainOptionPage mainOptionPage= (MainOptionPage) event.getInventory().getHolder();
 
