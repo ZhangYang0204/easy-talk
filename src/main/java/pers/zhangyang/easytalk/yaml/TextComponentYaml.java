@@ -48,18 +48,19 @@ public class TextComponentYaml extends YamlBase {
                         baseComponents[i]=new TextComponent(s);
                     }
                     textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,baseComponents));
-                }
+                }else {
 
-                List<Content> textList=new ArrayList<>();
-                for (String s:contentList){
-                    if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-                        s=PlaceholderAPI.setPlaceholders(player,s);
+                    List<Content> textList = new ArrayList<>();
+                    for (String s : contentList) {
+                        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+                            s = PlaceholderAPI.setPlaceholders(player, s);
+                        }
+                        s = ChatColor.translateAlternateColorCodes('&', s);
+                        textList.add(new Text(s));
                     }
-                    s= ChatColor.translateAlternateColorCodes('&',s);
-                    textList.add(new Text(s));
-                }
-                textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,textList));
+                    textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, textList));
 
+                }
 
             }
         }

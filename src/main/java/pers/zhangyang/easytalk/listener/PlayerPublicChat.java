@@ -18,6 +18,7 @@ import pers.zhangyang.easylibrary.other.vault.Vault;
 import pers.zhangyang.easylibrary.util.MessageUtil;
 import pers.zhangyang.easylibrary.util.PermUtil;
 import pers.zhangyang.easylibrary.util.PlayerUtil;
+import pers.zhangyang.easylibrary.util.VersionUtil;
 import pers.zhangyang.easytalk.yaml.FormatYaml;
 import pers.zhangyang.easytalk.yaml.MessageYaml;
 import pers.zhangyang.easytalk.yaml.SettingYaml;
@@ -69,7 +70,8 @@ public class PlayerPublicChat implements Listener {
 
             if (v.equalsIgnoreCase("message")) {
 
-                if (player.hasPermission("EasyTalk.showItem")) {
+                if (player.hasPermission("EasyTalk.showItem")&& VersionUtil.getMinecraftBigVersion()==1
+                        &&VersionUtil.getMinecraftMiddleVersion()>=19){
                     String msg = event.getMessage();
                     if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")
                             && event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())
