@@ -17,6 +17,7 @@ import pers.zhangyang.easylibrary.base.ExecutorBase;
 import pers.zhangyang.easylibrary.util.MessageUtil;
 import pers.zhangyang.easylibrary.util.PermUtil;
 import pers.zhangyang.easylibrary.util.PlayerUtil;
+import pers.zhangyang.easylibrary.util.VersionUtil;
 import pers.zhangyang.easytalk.yaml.FormatYaml;
 import pers.zhangyang.easytalk.yaml.MessageYaml;
 import pers.zhangyang.easytalk.yaml.SettingYaml;
@@ -82,7 +83,8 @@ public class PrivateChatExecutor extends ExecutorBase {
         List<TextComponent> textComponentList=new ArrayList<>();
         for (String v: format.split(",")){
             if (v.equalsIgnoreCase("message")) {
-                if (player.hasPermission("EasyTalk.showItem")){
+                if (player.hasPermission("EasyTalk.showItem")&& VersionUtil.getMinecraftBigVersion()==1
+                        &&VersionUtil.getMinecraftMiddleVersion()>=19){
                 List<String> stringList = new ArrayList<>();
                 List<String> finalStringList = new ArrayList<>();
                 finalStringList.add(message);

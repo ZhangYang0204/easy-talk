@@ -14,7 +14,7 @@ textComponent:
       - "他的名字是：%player_name%"
 
 
-    #该文本的悬浮事件 有RUN_COMMAND SUGGEST_COMMAND COPY_TO_CLIPBOARD
+    #该文本的悬浮事件 有RUN_COMMAND SUGGEST_COMMAND COPY_TO_CLIPBOARD，其中COPY_TO_CLIPBOARD在1.16及以上才生效
     clickEvent: "SUGGEST_COMMAND"
 
     #这里必须不是数组，支持Papi变量
