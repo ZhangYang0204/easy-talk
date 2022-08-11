@@ -64,7 +64,7 @@ public class PrivateChatExecutor extends ExecutorBase {
                 perm = integerList.get(0);
             }
         }else {
-            perm= PermUtil.getNumberPerm("EasyTalk.privateChatFormat.",player);
+            perm= PermUtil.getMaxNumberPerm("EasyTalk.privateChatFormat.",player);
         }
 
         if (perm==null){

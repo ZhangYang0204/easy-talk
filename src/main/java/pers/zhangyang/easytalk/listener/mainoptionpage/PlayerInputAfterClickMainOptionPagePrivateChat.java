@@ -64,7 +64,7 @@ public class PlayerInputAfterClickMainOptionPagePrivateChat extends FiniteInputL
                 perm = integerList.get(0);
             }
         }else {
-            perm= PermUtil.getNumberPerm("EasyTalk.privateChatFormat.",onlineOwner);
+            perm= PermUtil.getMaxNumberPerm("EasyTalk.privateChatFormat.",onlineOwner);
         }
 
         if (perm==null){

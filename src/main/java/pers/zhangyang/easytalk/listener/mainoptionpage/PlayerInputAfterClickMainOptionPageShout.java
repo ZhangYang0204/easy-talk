@@ -52,7 +52,7 @@ public class PlayerInputAfterClickMainOptionPageShout extends FiniteInputListene
                 perm = integerList.get(0);
             }
         } else {
-            perm = PermUtil.getNumberPerm("EasyTalk.publicChatFormat.", onlineOwner);
+            perm = PermUtil.getMaxNumberPerm("EasyTalk.publicChatFormat.", onlineOwner);
         }
         if (perm == null) {
             return;

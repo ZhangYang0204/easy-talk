@@ -45,7 +45,7 @@ public class PlayerPublicChat implements Listener {
                 perm = integerList.get(0);
             }
         } else {
-            perm = PermUtil.getNumberPerm("EasyTalk.publicChatFormat.", player);
+            perm = PermUtil.getMaxNumberPerm("EasyTalk.publicChatFormat.", player);
         }
         if (perm == null) {
             return;
