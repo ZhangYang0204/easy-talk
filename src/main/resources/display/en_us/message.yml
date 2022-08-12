@@ -1,10 +1,10 @@
 message:
 
-  #Enter what to cancel the operation
+  #Enter what to cancel the operation. If it is not filled in or "" is filled in, the default value will be used
   input:
     cancel: "cancel"
 
-  #Display placeholder for item display
+  #Placeholder for displaying items. You can't fill in "", If it is not filled in or "" is filled in, the default value will be used
   component:
     showItem: "&f[&bItem in hand&f]"
 
