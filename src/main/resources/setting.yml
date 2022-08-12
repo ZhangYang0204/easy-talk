@@ -9,24 +9,37 @@ setting:
   display: "default"
 
   #下面的字符会被替换为手中的物品,不能填写”“，”“会被自动忽略，1.19及以上版本才有效果
+  #The following characters will be replaced with the items in your hand. You cannot fill in "" and "" will be automatically ignored. Only version 1.19 and above will have effect
   showItemSymbol:
     - "%i"
 
   shout:
 
     #是否开启功能，不填则采用默认值false
+    #Whether to enable the function. If not, the default value is false
     enable: false
 
-    #喊话消息的最前面添加的内容，值为textComponent.yml中的选项
+    #喊话消息的最前面添加的内容，值为textComponent.yml中的选项，不填在则没有前缀
+    #The content added at the front of the calling message is the option in textcomponent.yml
+    #If it is not filled in, there is no prefix
     prefix: "喊话前缀"
 
     #以下面的字符开头时表明为喊话，如果为""或者不填，采用默认值!，注意是英文的感叹号
+    #If it begins with the following character, it indicates that it is a call
+    #If it is "" or not filled in, the default value is used!, Note: it is an exclamation point in English
     symbol: "!"
 
     #公共聊天的可视距离，一旦开启喊话后，不喊话的聊天（不包括私聊）只能在以下范围内看到，必须是非负数，填错或不填则采用默认值为128
-    publicChatVisibleRange: 128
+    #如果填的不是非负数，则采用默认值128.0，必须写成小数的形式，例如50写为50.0
+    #The visible distance of public chat. Once calling is enabled, the chat without calling (excluding private chat) can only be seen in the following range. It must be a non negative number
+    #If it is filled in incorrectly or not, the default value is 128
+    #If it is not a non negative number, the default value of 128.0 shall be used. It must be written in decimal form, for example, 50 is written as 50.0
+    publicChatVisibleRange: 128.0
 
-    #花费，Vault金币花费，必须是非负的整数
-    cost: 50
+    #花费，Vault金币花费，必须是非负数，不填则不开启Vault花费功能，填的不是非负数，则采用默认值50.0，必须写成小数的形式，例如50写为50.0
+    #Expense, vault gold coin expense, must be a non negative number
+    #If it is not filled in, the vault expense function will not be enabled
+    #If it is not filled in, the default value of 50.0 will be used. It must be written in decimal form. For example, 50 is written as 50.0
+    cost: 50.0
 
 

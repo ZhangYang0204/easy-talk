@@ -1,23 +1,32 @@
 textComponent:
   公共聊天前缀1:
     #显示的文本，可以使用Papi变量
+    ##Displayed text, you can use the Papi variable
     text: "&6[&f%player_name%&6] &7&l>>> "
 
 
 
-    #该文本的悬浮事件 有SHOW_TEXT
+    #该文本的悬浮事件 可填SHOW_TEXT，如果填错或不填，那么hoverEvent和hoverEventContent将被忽略
+    #The suspension event of this text can be filled in SHOW_TEXT
+    #If it is filled in incorrectly or not, hoverEvent and hoverEventContent will be ignored
     hoverEvent: "SHOW_TEXT"
 
     #这里必须是数组，支持Papi变量，虽然是数组，但是不会自动换行，请用换行符\n换行
+    #This must be an array. Papi variables are supported. Although it is an array, it will not automatically wrap lines.
+    #Please use the newline character \ nto wrap lines
     hoverEventContent:
       - "这是公共聊天，全部人都能看到\n"
       - "他的名字是：%player_name%"
 
 
     #该文本的悬浮事件 有RUN_COMMAND SUGGEST_COMMAND COPY_TO_CLIPBOARD，其中COPY_TO_CLIPBOARD在1.16及以上才生效
+    #如果填错或不填，那么clickEvent和clickEventContent将被忽略
+    #The suspended event of this text is RUN_COMMAND SUGGEST_COMMAND COPY_TO_CLIPBOARD, where COPY_TO_CLIPBOARD takes effect only after 1.16 and above
+    #click event and clickEventContent will be ignored if they are filled in incorrectly or not
     clickEvent: "SUGGEST_COMMAND"
 
     #这里必须不是数组，支持Papi变量
+    #This must not be an array. Papi variables are supported
     clickEventContent: "/tpa <玩家名>"
 
   公共聊天前缀2:

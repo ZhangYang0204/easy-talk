@@ -44,10 +44,10 @@ public class SettingYaml extends YamlBase {
         return display;
     }
 
-    public int getShoutCost() {
-        int display = getIntegerDefault("setting.shout.cost");
-        if (display<0){
-            display=yamlConfiguration.getInt("setting.shout.cost");
+    public Double getShoutCost() {
+        Double display = getDouble("setting.shout.cost");
+        if (display!=null&&display<0){
+            display=yamlConfiguration.getDouble("setting.shout.cost");
         }
         return display;
     }

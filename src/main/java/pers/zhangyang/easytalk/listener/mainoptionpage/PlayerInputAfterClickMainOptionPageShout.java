@@ -35,13 +35,13 @@ public class PlayerInputAfterClickMainOptionPageShout extends FiniteInputListene
     @Override
     public void run() {
 
-        if (!owner.isOnline()){
+        if (!owner.isOnline()) {
             List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.notOnline");
             MessageUtil.sendMessageTo(player, list);
             return;
         }
 
-        Player onlineOwner=owner.getPlayer();
+        Player onlineOwner = owner.getPlayer();
 
 
         //获得玩家的权限
@@ -65,32 +65,35 @@ public class PlayerInputAfterClickMainOptionPageShout extends FiniteInputListene
         if (format == null) {
             return;
         }
-            format=SettingYaml.INSTANCE.getStringDefault("setting.shout.prefix")+","+format;
+        String prefix = SettingYaml.INSTANCE.getString("setting.shout.prefix");
+        if (prefix != null) {
+            format = prefix + "," + format;
+        }
         //分割格式
         List<TextComponent> textComponentList = new ArrayList<>();
         for (String v : format.split(",")) {
 
             if (v.equalsIgnoreCase("message")) {
-            if (onlineOwner.hasPermission("EasyTalk.showItem")&& VersionUtil.getMinecraftBigVersion()==1
-                    &&VersionUtil.getMinecraftMiddleVersion()>=19){
-                String msg= messages[0];
+                if (onlineOwner.hasPermission("EasyTalk.showItem") && VersionUtil.getMinecraftBigVersion() == 1
+                        && VersionUtil.getMinecraftMiddleVersion() >= 19) {
+                    String msg = messages[0];
 
-                List<String> stringList = new ArrayList<>();
-                List<String> finalStringList = new ArrayList<>();
-                finalStringList.add(msg);
-                List<String> showItemSymbol= SettingYaml.INSTANCE.getShowItemSymbol();
-                if (showItemSymbol!=null) {
-                    for (String s :showItemSymbol){
+                    List<String> stringList = new ArrayList<>();
+                    List<String> finalStringList = new ArrayList<>();
+                    finalStringList.add(msg);
+                    List<String> showItemSymbol = SettingYaml.INSTANCE.getShowItemSymbol();
+                    if (showItemSymbol != null) {
+                        for (String s : showItemSymbol) {
 
-                        stringList.clear();
-                        stringList.addAll(finalStringList);
-                        finalStringList.clear();
-                        for (String ss:stringList){
-                            Collections.addAll(finalStringList,ss.split(s,-1));
+                            stringList.clear();
+                            stringList.addAll(finalStringList);
+                            finalStringList.clear();
+                            for (String ss : stringList) {
+                                Collections.addAll(finalStringList, ss.split(s, -1));
+                            }
+
                         }
-
                     }
-                }
 
                     for (String s : finalStringList) {
                         if (onlineOwner.hasPermission("EasyTalk.chatColor")) {
@@ -109,16 +112,16 @@ public class PlayerInputAfterClickMainOptionPageShout extends FiniteInputListene
                         textComponentList.add(messageComponent);
 
                     }
-                        textComponentList.remove(textComponentList.size() - 1);
-                continue;
-            }else {
-                TextComponent textComponent=new TextComponent(messages[0]);
-                textComponent.setText(ChatColor.translateAlternateColorCodes('&', textComponent.getText()));
-                textComponentList.add(textComponent);
-            }
+                    textComponentList.remove(textComponentList.size() - 1);
+                    continue;
+                } else {
+                    TextComponent textComponent = new TextComponent(messages[0]);
+                    textComponent.setText(ChatColor.translateAlternateColorCodes('&', textComponent.getText()));
+                    textComponentList.add(textComponent);
+                }
             }
 
-            TextComponent t = TextComponentYaml.INSTANCE.getTextComponent("textComponent." + v,onlineOwner);
+            TextComponent t = TextComponentYaml.INSTANCE.getTextComponent("textComponent." + v, onlineOwner);
             if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                 t.setText(PlaceholderAPI.setPlaceholders(onlineOwner, t.getText()));
             }
@@ -136,25 +139,25 @@ public class PlayerInputAfterClickMainOptionPageShout extends FiniteInputListene
         //发送
 
 
-            if (Vault.hook()==null){
-                MessageUtil.sendMessageTo(player,MessageYaml.INSTANCE.getStringList("message.chat.notHookVault"));
+        Double cost=SettingYaml.INSTANCE.getShoutCost();
+        if (cost!=null) {
+            if (Vault.hook() == null) {
+                MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.notHookVault"));
                 return;
             }
 
-            if (!Vault.hook().has(player,SettingYaml.INSTANCE.getShoutCost())){
-                MessageUtil.sendMessageTo(player,MessageYaml.INSTANCE.getStringList("message.chat.notEnoughVaultWhenShout"));
+            if (!Vault.hook().has(player, cost)) {
+                MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.notEnoughVaultWhenShout"));
                 return;
             }
 
-            Vault.hook().withdrawPlayer(player,SettingYaml.INSTANCE.getShoutCost());
+            Vault.hook().withdrawPlayer(player, cost);
 
+        }
 
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                p.spigot().sendMessage(textComponent);
-            }
-
-
-
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.spigot().sendMessage(textComponent);
+        }
 
 
     }

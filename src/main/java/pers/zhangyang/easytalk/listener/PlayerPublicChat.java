@@ -58,20 +58,19 @@ public class PlayerPublicChat implements Listener {
         if (format == null) {
             return;
         }
-        if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")&&event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())
-        &&player.hasPermission("EasyTalk.shout")){
-            format=SettingYaml.INSTANCE.getStringDefault("setting.shout.prefix")+","+format;
+        if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable") && event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())
+                && player.hasPermission("EasyTalk.shout")) {
+            format = SettingYaml.INSTANCE.getStringDefault("setting.shout.prefix") + "," + format;
         }
         //分割格式
         List<TextComponent> textComponentList = new ArrayList<>();
         for (String v : format.split(",")) {
 
 
-
             if (v.equalsIgnoreCase("message")) {
 
-                if (player.hasPermission("EasyTalk.showItem")&& VersionUtil.getMinecraftBigVersion()==1
-                        &&VersionUtil.getMinecraftMiddleVersion()>=19){
+                if (player.hasPermission("EasyTalk.showItem") && VersionUtil.getMinecraftBigVersion() == 1
+                        && VersionUtil.getMinecraftMiddleVersion() >= 19) {
                     String msg = event.getMessage();
                     if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")
                             && event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())
@@ -116,14 +115,14 @@ public class PlayerPublicChat implements Listener {
                     }
                     textComponentList.remove(textComponentList.size() - 1);
                     continue;
-                }else {
-                    TextComponent textComponent=new TextComponent(event.getMessage());
+                } else {
+                    TextComponent textComponent = new TextComponent(event.getMessage());
                     textComponent.setText(ChatColor.translateAlternateColorCodes('&', textComponent.getText()));
                     textComponentList.add(textComponent);
                 }
             }
 
-            TextComponent t = TextComponentYaml.INSTANCE.getTextComponent("textComponent." + v,player);
+            TextComponent t = TextComponentYaml.INSTANCE.getTextComponent("textComponent." + v, player);
             if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                 t.setText(PlaceholderAPI.setPlaceholders(player, t.getText()));
             }
@@ -140,36 +139,36 @@ public class PlayerPublicChat implements Listener {
 
         //发送
 
-            if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")
-                    &&event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())
-            &&player.hasPermission("EasyTalk.shout")){
+        Double cost=SettingYaml.INSTANCE.getShoutCost();
+        if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")
+                && event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())
+                && player.hasPermission("EasyTalk.shout")
+        &&cost!=null) {
 
-                    if (Vault.hook()==null){
-                        MessageUtil.sendMessageTo(player,MessageYaml.INSTANCE.getStringList("message.chat.notHookVault"));
-                        return;
-                    }
-
-                    if (!Vault.hook().has(player,SettingYaml.INSTANCE.getShoutCost())){
-                        MessageUtil.sendMessageTo(player,MessageYaml.INSTANCE.getStringList("message.chat.notEnoughVaultWhenShout"));
-                        return;
-                    }
-
-                    Vault.hook().withdrawPlayer(player,SettingYaml.INSTANCE.getShoutCost());
-
-
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.spigot().sendMessage(textComponent);
-                }
-
-            }else {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    if (p.getLocation().distance(player.getLocation())<SettingYaml.INSTANCE.getPublicChatVisibleRange()){
-                        p.spigot().sendMessage(textComponent);
-                    }
-                }
+            if (Vault.hook() == null) {
+                MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.notHookVault"));
+                return;
             }
 
+            if (!Vault.hook().has(player, cost)) {
+                MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.notEnoughVaultWhenShout"));
+                return;
+            }
 
+            Vault.hook().withdrawPlayer(player, cost);
+
+
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                p.spigot().sendMessage(textComponent);
+            }
+
+        } else {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (p.getLocation().distance(player.getLocation()) < SettingYaml.INSTANCE.getPublicChatVisibleRange()) {
+                    p.spigot().sendMessage(textComponent);
+                }
+            }
+        }
 
 
     }

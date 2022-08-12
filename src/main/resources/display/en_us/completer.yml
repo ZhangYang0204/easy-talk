@@ -1,6 +1,6 @@
 completer:
 
-  #当输入了/easyTalk后将提示补全以下内容
+  #When you enter /easyTalk, you will be prompted to complete the below
   easyTalk:
     - "help"
     - "reloadPlugin"
