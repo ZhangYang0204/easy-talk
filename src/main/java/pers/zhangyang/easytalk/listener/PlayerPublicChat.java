@@ -58,7 +58,8 @@ public class PlayerPublicChat implements Listener {
         if (format == null) {
             return;
         }
-        if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable") && event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())
+        if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")
+                && event.getMessage().startsWith(SettingYaml.INSTANCE.getNonemptyStringDefault("setting.shout.symbol"))
                 && player.hasPermission("EasyTalk.shout")) {
             format = SettingYaml.INSTANCE.getStringDefault("setting.shout.prefix") + "," + format;
         }
@@ -73,9 +74,9 @@ public class PlayerPublicChat implements Listener {
                         && VersionUtil.getMinecraftMiddleVersion() >= 19) {
                     String msg = event.getMessage();
                     if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")
-                            && event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())
+                            && event.getMessage().startsWith(SettingYaml.INSTANCE.getNonemptyStringDefault("setting.shout.symbol"))
                             && player.hasPermission("EasyTalk.shout")) {
-                        msg = msg.replaceFirst(SettingYaml.INSTANCE.getShoutSymbol(), "");
+                        msg = msg.replaceFirst(SettingYaml.INSTANCE.getNonemptyStringDefault("setting.shout.symbol"), "");
                     }
 
                     List<String> stringList = new ArrayList<>();
@@ -101,7 +102,7 @@ public class PlayerPublicChat implements Listener {
                         } else {
                             textComponentList.add(new TextComponent(s));
                         }
-                        TextComponent messageComponent = new TextComponent(MessageYaml.INSTANCE.getShowItem());
+                        TextComponent messageComponent = new TextComponent(MessageYaml.INSTANCE.getNonemptyStringDefault("message.component.showItem"));
 
                         ItemStack itemStack = PlayerUtil.getItemInMainHand(player);
                         ItemTag itemTag = ItemTag.ofNbt(itemStack.getItemMeta() == null ? null : itemStack.getItemMeta().getAsString());
@@ -139,11 +140,11 @@ public class PlayerPublicChat implements Listener {
 
         //发送
 
-        Double cost=SettingYaml.INSTANCE.getShoutCost();
+        Double cost = SettingYaml.INSTANCE.getNonnegativeDouble("setting.shout.cost");
         if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")
-                && event.getMessage().startsWith(SettingYaml.INSTANCE.getShoutSymbol())
+                && event.getMessage().startsWith(SettingYaml.INSTANCE.getNonemptyStringDefault("setting.shout.symbol"))
                 && player.hasPermission("EasyTalk.shout")
-        &&cost!=null) {
+                && cost != null) {
 
             if (Vault.hook() == null) {
                 MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.notHookVault"));
@@ -164,7 +165,7 @@ public class PlayerPublicChat implements Listener {
 
         } else {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                if (p.getLocation().distance(player.getLocation()) < SettingYaml.INSTANCE.getPublicChatVisibleRange()) {
+                if (p.getLocation().distance(player.getLocation()) < SettingYaml.INSTANCE.getNonnegativeDoubleDefault("setting.shout.publicChatVisibleRange")) {
                     p.spigot().sendMessage(textComponent);
                 }
             }

@@ -1,6 +1,6 @@
 message:
 
-  #Enter what to cancel the operation. If it is not filled in or "" is filled in, the default value will be used
+  #Enter what to cancel the operation. If it is not filled in or "" is filled in, the default value will be
   input:
     cancel: "cancel"
 

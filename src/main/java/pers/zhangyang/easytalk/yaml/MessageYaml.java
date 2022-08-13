@@ -11,14 +11,6 @@ public class MessageYaml extends YamlBase {
         super("display/" + SettingYaml.INSTANCE.getDisplay() + "/message.yml");
     }
 
-    @NotNull
-    public String getShowItem() {
-        String display = getStringDefault("message.component.showItem");
-        if (display.isEmpty()){
-            display=backUpConfiguration.getString("message.component.showItem");
-        }
-        assert display != null;
-        return display;
-    }
+
 
 }

@@ -20,41 +20,18 @@ public class SettingYaml extends YamlBase {
     public String getDisplay() {
         String display = getStringDefault("setting.display");
 
-        if(pers.zhangyang.easylibrary.yaml.SettingYaml.class.getClassLoader().getResource("display/"+display)==null){
+        if (pers.zhangyang.easylibrary.yaml.SettingYaml.class.getClassLoader().getResource("display/" + display) == null) {
             display = backUpConfiguration.getString("setting.display");
         }
         assert display != null;
         return display;
     }
 
-    @NotNull
-    public String getShoutSymbol() {
-        String display = getStringDefault("setting.shout.symbol");
-        if (display.isEmpty()){
-            display=yamlConfiguration.getString("setting.shout.symbol");
-        }
-        assert display != null;
-        return display;
-    }
-    public double getPublicChatVisibleRange() {
-        double display = getDoubleDefault("setting.shout.publicChatVisibleRange");
-        if (display<0){
-            display=yamlConfiguration.getDouble("setting.shout.publicChatVisibleRange");
-        }
-        return display;
-    }
 
-    public Double getShoutCost() {
-        Double display = getDouble("setting.shout.cost");
-        if (display!=null&&display<0){
-            display=yamlConfiguration.getDouble("setting.shout.cost");
-        }
-        return display;
-    }
     @Nullable
     public List<String> getShowItemSymbol() {
-        List<String> showItemSymbol=SettingYaml.INSTANCE.getStringList("setting.showItemSymbol");
-        if (showItemSymbol!=null) {
+        List<String> showItemSymbol = SettingYaml.INSTANCE.getStringList("setting.showItemSymbol");
+        if (showItemSymbol != null) {
             showItemSymbol.remove("");
         }
         return showItemSymbol;

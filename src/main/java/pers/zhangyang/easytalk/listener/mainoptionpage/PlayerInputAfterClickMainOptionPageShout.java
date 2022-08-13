@@ -101,7 +101,7 @@ public class PlayerInputAfterClickMainOptionPageShout extends FiniteInputListene
                         } else {
                             textComponentList.add(new TextComponent(s));
                         }
-                        TextComponent messageComponent = new TextComponent(MessageYaml.INSTANCE.getShowItem());
+                        TextComponent messageComponent = new TextComponent(MessageYaml.INSTANCE.getNonemptyStringDefault("message.component.showItem"));
                         ItemStack itemStack = PlayerUtil.getItemInMainHand(player);
                         ItemTag itemTag = ItemTag.ofNbt(itemStack.getItemMeta() == null ? null : itemStack.getItemMeta().getAsString());
                         messageComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM,
@@ -139,8 +139,8 @@ public class PlayerInputAfterClickMainOptionPageShout extends FiniteInputListene
         //发送
 
 
-        Double cost=SettingYaml.INSTANCE.getShoutCost();
-        if (cost!=null) {
+        Double cost = SettingYaml.INSTANCE.getNonnegativeDouble("setting.shout.cost");
+        if (cost != null) {
             if (Vault.hook() == null) {
                 MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.notHookVault"));
                 return;

@@ -11,15 +11,14 @@ import pers.zhangyang.easytalk.domain.MainOptionPage;
 public class PlayerClickMainOptionPagePrivateChat implements Listener {
 
 
-    @GuiDiscreteButtonHandler(guiPage = MainOptionPage.class,slot = {23})
-    public void on(InventoryClickEvent event){
-        MainOptionPage mainOptionPage= (MainOptionPage) event.getInventory().getHolder();
+    @GuiDiscreteButtonHandler(guiPage = MainOptionPage.class, slot = {23})
+    public void on(InventoryClickEvent event) {
+        MainOptionPage mainOptionPage = (MainOptionPage) event.getInventory().getHolder();
 
         assert mainOptionPage != null;
-        Player player= (Player) event.getWhoClicked();
+        Player player = (Player) event.getWhoClicked();
 
-        new PlayerInputAfterClickMainOptionPagePrivateChat(player,mainOptionPage.getOwner(),mainOptionPage);
-
+        new PlayerInputAfterClickMainOptionPagePrivateChat(player, mainOptionPage.getOwner(), mainOptionPage);
 
 
     }

@@ -8,7 +8,7 @@ public class EasyTalk extends EasyPlugin {
     public void onOpen() {
 
         // bStats统计信息
-        new Metrics(EasyTalk.instance, 	15903);
+        new Metrics(EasyTalk.instance, 15903);
     }
 
     @Override

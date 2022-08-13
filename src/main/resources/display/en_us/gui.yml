@@ -1,10 +1,10 @@
 gui:
 
   #The command to be executed after the return button on the first page is clicked. The format is way: command, where way refers to the execution mode, and command is a command. The command does not need to add /,
-  #The execution methods are operator, console and player, which respectively represent the execution as op (give the player OP and then execute and then cancel the player OP), console execution and player execution
+  #The execution methods are operator, console and self, which respectively represent the execution as op (give the player OP and then execute and then cancel the player OP), console execution and self execution
   firstPageBackCommand:
-    - "player:bs"
-    - "player:cd"
+    - "self:bs"
+    - "self:cd"
 
   title:
     mainOptionPage: "Main Option Page"

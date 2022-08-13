@@ -14,22 +14,20 @@ import pers.zhangyang.easytalk.yaml.SettingYaml;
 public class PlayerClickMainOptionPageShout implements Listener {
 
 
-    @GuiDiscreteButtonHandler(guiPage = MainOptionPage.class,slot = {21})
-    public void on(InventoryClickEvent event){
-        MainOptionPage mainOptionPage= (MainOptionPage) event.getInventory().getHolder();
+    @GuiDiscreteButtonHandler(guiPage = MainOptionPage.class, slot = {21})
+    public void on(InventoryClickEvent event) {
+        MainOptionPage mainOptionPage = (MainOptionPage) event.getInventory().getHolder();
 
         assert mainOptionPage != null;
-        Player player= (Player) event.getWhoClicked();
+        Player player = (Player) event.getWhoClicked();
 
-        if (!SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")){
+        if (!SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")) {
             MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.notEnableShout"));
             return;
         }
 
 
-
-        new PlayerInputAfterClickMainOptionPageShout(player,mainOptionPage.getOwner(),mainOptionPage);
-
+        new PlayerInputAfterClickMainOptionPageShout(player, mainOptionPage.getOwner(), mainOptionPage);
 
 
     }

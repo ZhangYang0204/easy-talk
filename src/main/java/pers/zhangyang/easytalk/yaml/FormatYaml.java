@@ -1,6 +1,7 @@
 package pers.zhangyang.easytalk.yaml;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.jetbrains.annotations.NotNull;
 import pers.zhangyang.easylibrary.base.YamlBase;
 
 import java.util.ArrayList;
@@ -14,33 +15,35 @@ public class FormatYaml extends YamlBase {
         super("format.yml");
     }
 
-    public List<Integer> getPublicChatFormatNameList(){
-        List<Integer> integerList=new ArrayList<>();
-        ConfigurationSection configurationSection=yamlConfiguration.getConfigurationSection("format.publicChat");
-        if (configurationSection==null){
+    @NotNull
+    public List<Integer> getPublicChatFormatNameList() {
+        List<Integer> integerList = new ArrayList<>();
+        ConfigurationSection configurationSection = yamlConfiguration.getConfigurationSection("format.publicChat");
+        if (configurationSection == null) {
             return integerList;
         }
-        for (String key:configurationSection.getKeys(false)){
+        for (String key : configurationSection.getKeys(false)) {
             try {
-                int var=Integer.parseInt(key);
+                int var = Integer.parseInt(key);
                 integerList.add(var);
-            }catch (NumberFormatException ignored){
+            } catch (NumberFormatException ignored) {
             }
         }
         return integerList;
 
     }
-    public List<Integer> getPrivateChatFormatNameList(){
-        List<Integer> integerList=new ArrayList<>();
-        ConfigurationSection configurationSection=yamlConfiguration.getConfigurationSection("format.privateChat");
-        if (configurationSection==null){
+
+    public List<Integer> getPrivateChatFormatNameList() {
+        List<Integer> integerList = new ArrayList<>();
+        ConfigurationSection configurationSection = yamlConfiguration.getConfigurationSection("format.privateChat");
+        if (configurationSection == null) {
             return integerList;
         }
-        for (String key:configurationSection.getKeys(false)){
+        for (String key : configurationSection.getKeys(false)) {
             try {
-                int var=Integer.parseInt(key);
+                int var = Integer.parseInt(key);
                 integerList.add(var);
-            }catch (NumberFormatException ignored){
+            } catch (NumberFormatException ignored) {
             }
         }
         return integerList;
