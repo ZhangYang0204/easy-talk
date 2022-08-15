@@ -53,7 +53,7 @@ message:
     howToShout:
       - "&b&lEnter the content you want to shout, and enter &Fcancel &B&Lcancel."
 
-    notEnoughVaultWhenShout:
+    notEnoughVault:
       - "&c&lYou don't have enough gold coins to shout"
     notHookVault:
       - "&c&lNo vault plug-ins and vault based economic plugins were detected."

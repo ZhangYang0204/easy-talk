@@ -152,7 +152,7 @@ public class PlayerPublicChat implements Listener {
             }
 
             if (!Vault.hook().has(player, cost)) {
-                MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.notEnoughVaultWhenShout"));
+                MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.notEnoughVault"));
                 return;
             }
 
