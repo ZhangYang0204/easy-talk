@@ -15,7 +15,7 @@ import java.util.List;
 public class MainOptionPage extends SingleGuiPageBase implements BackAble {
 
     public MainOptionPage(Player viewer, GuiPage backPage, OfflinePlayer owner) {
-        super(GuiYaml.INSTANCE.getString("gui.title.mainOptionPage"), viewer, backPage, owner);
+        super(GuiYaml.INSTANCE.getString("gui.title.mainOptionPage"), viewer, backPage, owner,54);
     }
 
     @Override
@@ -41,5 +41,10 @@ public class MainOptionPage extends SingleGuiPageBase implements BackAble {
             return;
         }
         CommandUtil.dispatchCommandList(viewer,cmdList);
+    }
+
+    @Override
+    public int getBackSlot() {
+        return 49;
     }
 }

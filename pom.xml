@@ -6,7 +6,7 @@
 
     <groupId>pers.zhangyang</groupId>
     <artifactId>easy-talk</artifactId>
-    <version>1.5.2</version>
+    <version>1.6.0</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -18,14 +18,21 @@
             <url>https://zhangyang0204.github.io/easy-library/repository</url>
         </repository>
         <repository>
-            <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <id>rosewood-repo</id>
+            <url>https://repo.rosewooddev.io/repository/public/</url>
         </repository>
-
 
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 

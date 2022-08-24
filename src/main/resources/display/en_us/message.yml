@@ -8,7 +8,7 @@ message:
   component:
     showItem: "&f[&bItem in hand&f]"
 
-
+  # Below support Papi variables
   chat:
     failureGetLatestVersion:
       - "&c&lFailed to get the latest version of EasyTalk."
