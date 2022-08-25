@@ -11,7 +11,7 @@ import pers.zhangyang.easytalk.domain.MainOptionPage;
 public class PlayerClickMainOptionPagePrivateChat implements Listener {
 
 
-    @GuiDiscreteButtonHandler(guiPage = MainOptionPage.class, slot = {23})
+    @GuiDiscreteButtonHandler(guiPage = MainOptionPage.class, slot = {23},refreshGui = false,closeGui = true)
     public void on(InventoryClickEvent event) {
         MainOptionPage mainOptionPage = (MainOptionPage) event.getInventory().getHolder();
 

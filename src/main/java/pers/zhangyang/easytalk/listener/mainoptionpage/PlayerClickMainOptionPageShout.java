@@ -14,7 +14,7 @@ import pers.zhangyang.easytalk.yaml.SettingYaml;
 public class PlayerClickMainOptionPageShout implements Listener {
 
 
-    @GuiDiscreteButtonHandler(guiPage = MainOptionPage.class, slot = {21})
+    @GuiDiscreteButtonHandler(guiPage = MainOptionPage.class, slot = {21},refreshGui = false,closeGui = true)
     public void on(InventoryClickEvent event) {
         MainOptionPage mainOptionPage = (MainOptionPage) event.getInventory().getHolder();
 
