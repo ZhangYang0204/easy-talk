@@ -140,16 +140,17 @@ public class PlayerPublicChat implements Listener {
 
         //发送
 
-        Double cost = SettingYaml.INSTANCE.getNonnegativeDouble("setting.shout.cost");
         if (SettingYaml.INSTANCE.getBooleanDefault("setting.shout.enable")
                 && event.getMessage().startsWith(SettingYaml.INSTANCE.getNonemptyStringDefault("setting.shout.symbol"))
                 && player.hasPermission("EasyTalk.shout")
-                && cost != null) {
+                ) {
 
-            if (Vault.hook() == null) {
-                MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.notHookVault"));
-                return;
-            }
+            Double cost = SettingYaml.INSTANCE.getNonnegativeDouble("setting.shout.cost");
+            if (cost!=null) {
+                if (Vault.hook() == null) {
+                    MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.notHookVault"));
+                    return;
+                }
 
             if (!Vault.hook().has(player, cost)) {
                 MessageUtil.sendMessageTo(player, MessageYaml.INSTANCE.getStringList("message.chat.notEnoughVault"));
@@ -158,6 +159,7 @@ public class PlayerPublicChat implements Listener {
 
             Vault.hook().withdrawPlayer(player, cost);
 
+        }
 
             for (Player p : Bukkit.getOnlinePlayers()) {
                 p.spigot().sendMessage(textComponent);
@@ -165,9 +167,15 @@ public class PlayerPublicChat implements Listener {
 
         } else {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                if (p.getLocation().distance(player.getLocation()) < SettingYaml.INSTANCE.getNonnegativeDoubleDefault("setting.shout.publicChatVisibleRange")) {
-                    p.spigot().sendMessage(textComponent);
+
+                if(!p.getWorld().equals(player.getWorld())){
+                  continue;
                 }
+
+                if (p.getLocation().distance(player.getLocation()) > SettingYaml.INSTANCE.getNonnegativeDoubleDefault("setting.shout.publicChatVisibleRange")) {
+                    continue;
+                }
+                p.spigot().sendMessage(textComponent);
             }
         }
 
